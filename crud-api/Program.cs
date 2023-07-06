@@ -1,4 +1,5 @@
 using crud_api.Data;
+using crud_api.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,10 @@ builder.Services.AddSwaggerGen();
 var configuration = builder.Configuration;
 var defConnStr = configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(defConnStr));
+builder.Services.AddSingleton<PostgresSettings>(s => new PostgresSettings
+{
+    Setting = defConnStr
+});
 
 var app = builder.Build();
 
